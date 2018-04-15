@@ -1,0 +1,21 @@
+{
+  "name": "hero-crawler",
+  "version": "0.0.1",
+  "description": "Node Crawler",
+  "main": "index.js",
+  "repository": "git@github.com:lencx/hero-crawler.git",
+  "author": "Len <cxin1314@gmail.com>",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.17.3"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "fs-extra": "^5.0.0",
+    "iconv": "^2.3.0",
+    "request-promise": "^4.2.2"
+  }
+}
