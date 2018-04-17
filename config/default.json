@@ -1,0 +1,15 @@
+{
+    "api": {
+        "heroCamp": "https://pvp.qq.com/act/a20160510story/herostory.htm",
+        "heroList": "https://pvp.qq.com/webplat/info/news_version3/15592/18024/23901/24397/24398/m17330/list_1.shtml"
+    },
+    "dataDir": "source/database/",
+    "imgDir": "source/img/",
+    "dataFiles": {
+        "heroListOrigin": "heros.origin"
+    },
+    "imgFiles": {
+        "heroImg": "hero/",
+        "heroFace": "face/"
+    }
+}

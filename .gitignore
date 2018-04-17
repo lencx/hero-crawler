@@ -1,5 +1,7 @@
 .DS_Store
 .vscode
 *.log
-node_modules
-database
+node_modules/
+database/
+source/
+test/
