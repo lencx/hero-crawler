@@ -6,14 +6,10 @@ const config = require('config')
 const resolve = (...dir) => path.relative(__dirname, ...dir)
 const filePathExists = (pathname, cb) => fs.pathExists(resolve(`${config.dataDir}/${pathname}.json`), cb)
 
-// const downloadImg = async (src, dest) => {
-//     return await rp(src)
-//         .on('error', err => {
-//             console.log(err)
-//         })
-//         .pipe(fs.createWriteStream(dest))
-//         .on('finish', () => console.log('finish'))
-// }
+const pathExists = (pathname, type) => {
+    let dir = () => resolve(`${type === 'img' ? pathname : config.dataDir}`)
+    fs.pathExists(dir(), (err, exist) => fs.ensureDir(dir()))
+}
 
 const downloadPic = async data => {
     console.log(`########### Total \x1b[35m[${data.length}]\x1b[0m Pictures #############`)
@@ -25,8 +21,18 @@ const downloadPic = async data => {
     await Promise.all(pics)
 }
 
+const heroimg = config.imgDir + config.get('imgFiles.heroImg')
+const faceimg = config.imgDir + config.get('imgFiles.heroFace')
+const heroOrigin = config.dataDir + config.get('dataFiles.herosOrigin')
+const newHerosOrigin = config.dataDir + config.get('dataFiles.newHerosOrigin')
+
 module.exports = {
     resolve,
     filePathExists,
-    downloadPic
+    pathExists,
+    downloadPic,
+    heroimg,
+    faceimg,
+    heroOrigin,
+    newHerosOrigin,
 }

@@ -1,19 +1,19 @@
 {
   "name": "hero-crawler",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node Crawler",
   "main": "index.js",
   "repository": "git@github.com:lencx/hero-crawler.git",
   "author": "Len <cxin1314@gmail.com>",
   "scripts": {
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "dl": "node ./download.js"
   },
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.17.3"
   },
   "dependencies": {
-    "bagpipe": "^0.3.5",
     "cheerio": "^1.0.0-rc.2",
     "config": "^1.30.0",
     "fs-extra": "^5.0.0",

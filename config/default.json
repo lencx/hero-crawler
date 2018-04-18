@@ -6,7 +6,8 @@
     "dataDir": "source/database/",
     "imgDir": "source/img/",
     "dataFiles": {
-        "heroListOrigin": "heros.origin"
+        "herosOrigin": "heros.origin",
+        "newHerosOrigin": "heros"
     },
     "imgFiles": {
         "heroImg": "hero/",

@@ -3,14 +3,10 @@ const fs = require('fs-extra')
 const Iconv = require('iconv').Iconv
 const rp = require('request-promise')
 const config = require('config')
-const iconv = new Iconv('GBK', 'UTF-8')
+const cn = new Iconv('GBK', 'UTF-8')
 
 const utils = require('./utils')
 const api = config.api
-const img = config.imgFiles
-const heroimg = config.imgDir + img.get('heroImg')
-const faceimg = config.imgDir + img.get('heroFace')
-let heroOriginFile = utils.resolve(`${config.dataDir}/${config.dataFiles.heroListOrigin}.json`)
 
 /**
  * get data
@@ -43,69 +39,63 @@ const getHeros = async () => {
 }
 
 /**
- * When the `img` file does not exist, create it.
+ * When the `img`, `database` file does not exist, create it.
  */
-utils.filePathExists('img', (err, exist) => {
-    if(!exist) {
-        fs.ensureDir(heroimg)
-        fs.ensureDir(faceimg)
-    }
-})
+const dirInit = () => {
+    utils.pathExists(`${utils.heroimg}`, 'img')
+    utils.pathExists(`${utils.faceimg}`, 'img')
+    utils.pathExists(`${utils.heroOrigin}.json`)
+}
 
 /**
  * filename: heros.json
  * data: heroCamp & heroList
  */
-utils.filePathExists(`${config.dataFiles.heroListOrigin}`, (err, exist) => {
-    if(!exist) {
-        getHeros()
-            .then(data => {
-                fs.ensureDir(utils.resolve(`${config.dataDir}`))
-                    .then(() => fs.writeFile(
-                        utils.resolve(`${config.dataDir}${config.dataFiles.heroListOrigin}.json`),
+const writeHeroOriginFile = () => {
+    fs.exists(`${utils.heroOrigin}.json`, exist => {
+        if(!exist) {
+            getHeros()
+                .then(data => {
+                    fs.writeFile(
+                        utils.resolve(`${utils.heroOrigin}.json`),
                         JSON.stringify(data, null, 2),
-                        () => console.log(`\x1b[33m\`${config.dataFiles.heroListOrigin}.json\` \x1b[35mwritten successfully!\x1b[0m`)
-                    ))
-            })
-    }
-})
-
-const downloadHeroImg = data => {
-    let herolistImg = []
-    data.heroList.some(i => {
-        let img1 = i.heroimg
-        let img2 = i.faceimg
-        let name = i.pinyin
-        !/^http/.test(img1) ? img1 = `http:${img1}` : ''
-        !/^http/.test(img2) ? img2 = `http:${img2}` : ''
-        herolistImg.push({
-            uri: img1,
-            path: `${heroimg}${name}.png`,
-            name
+                        () => console.log(`\x1b[33m\`${utils.heroOrigin}.json\` \x1b[35mwritten successfully!\x1b[0m`)
+                    )
+                })
         }
-        , {
-            uri: img2,
-            path: `${faceimg}${name}.png`,
-            name
-        }
-        )
     })
-    utils.downloadPic(herolistImg)
 }
 
-fs.readFile(heroOriginFile, {encoding: 'UTF-8'}, (err, data) => {
-    downloadHeroImg(JSON.parse(data))
-})
+dirInit()
+writeHeroOriginFile()
 
-// const getHeroDatail = async (url, id) => {
-//     const opts = {
-//         encoding: null,
-//         url
-//     }
 
-//     const $ = await rp(opts)
-//         .then(body => {
-//             const result = iconv.convert(new Buffer(body, 'binary').toString())
-//             return cheerio.load(result)
-//         })
-// }
+
+const getHeroDatail = async (uri, id) => {
+    const opts = {
+        encoding: null,
+        uri
+    }
+    console.log(opts)
+
+    const $ = await rp(opts)
+        .then(body => {
+            // console.log(body)
+            const result = cn.convert(new Buffer(body), 'binary').toString()
+            // console.log(result)
+            return cheerio.load(result)
+            // console.log($('#wrap .tips'))
+        })
+        
+    let heroinfo = {
+        name: $('.heroinfo h2').text(),
+        nickname: $('.heroinfo h3').text(),
+        dubber: $('.heroinfo #dub span').text(),
+        tips: $('#wrap .tips').text(),
+        content: $('.content .textboxs p').text()
+    }
+    console.log(heroinfo)
+}
+
+// let info = 'http://pvp.qq.com/webplat/info/news_version3/15592/27363/28440/m17324/201803/698379.shtml?ADTAG=pvp.storyweb'
+// getHeroDatail(info, '001')
