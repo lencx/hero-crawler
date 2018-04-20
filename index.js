@@ -70,32 +70,53 @@ dirInit()
 writeHeroOriginFile()
 
 
-
-const getHeroDatail = async (uri, id) => {
+const getHeroDetail = async (uri, id) => {
     const opts = {
         encoding: null,
         uri
     }
-    console.log(opts)
 
     const $ = await rp(opts)
         .then(body => {
-            // console.log(body)
             const result = cn.convert(new Buffer(body), 'binary').toString()
-            // console.log(result)
             return cheerio.load(result)
-            // console.log($('#wrap .tips'))
         })
         
-    let heroinfo = {
-        name: $('.heroinfo h2').text(),
-        nickname: $('.heroinfo h3').text(),
-        dubber: $('.heroinfo #dub span').text(),
-        tips: $('#wrap .tips').text(),
-        content: $('.content .textboxs p').text()
+    let heroDetail = []
+    $('.content .textboxs p').each(function(_, index) {
+        if($(this).find('img').length > 0) {
+            let src = $(this).find('img').attr('src')
+            !/^http/.test(src) ? src = `https:${src}` : ''
+            heroDetail.push({
+                type: 'img',
+                text: src
+            })
+        } else {
+            heroDetail.push({
+                type: 'txt',
+                text: $(this).text().trim()
+            })
+        }
+    })
+    return {
+        _id: id,
+        name: $('.heroinfo h2').text().trim(),
+        nickname: $('.heroinfo h3').text().trim(),
+        dubber: $('.heroinfo #dub span').text().trim(),
+        tips: $('#wrap .tips').text().trim(),
+        content: heroDetail
     }
-    console.log(heroinfo)
+    // fs.writeFile(
+    //     utils.resolve(`${utils.heroDetailOrigin}.json`),
+    //     JSON.stringify(herosDetail, null, 2),
+    //     () => console.log(`\x1b[33m\`${utils.heroDetailOrigin}.json\` \x1b[35mwritten successfully!\x1b[0m`)
+    // )
 }
 
-// let info = 'http://pvp.qq.com/webplat/info/news_version3/15592/27363/28440/m17324/201803/698379.shtml?ADTAG=pvp.storyweb'
-// getHeroDatail(info, '001')
+let infos = [{
+    uri: 'http://pvp.qq.com/webplat/info/news_version3/15592/27363/28440/m17324/201803/698379.shtml?ADTAG=pvp.storyweb',
+    id: '001'
+}, {
+    uri: 'http://pvp.qq.com/webplat/info/news_version3/15592/27363/28440/m17324/201802/689981.shtml?ADTAG=pvp.storyweb',
+    id: '002'
+}]

@@ -24,6 +24,7 @@ const downloadPic = async data => {
 const heroimg = config.imgDir + config.get('imgFiles.heroImg')
 const faceimg = config.imgDir + config.get('imgFiles.heroFace')
 const heroOrigin = config.dataDir + config.get('dataFiles.herosOrigin')
+const heroDetailOrigin = config.dataDir + config.get('dataFiles.herosDetailOrigin')
 const newHerosOrigin = config.dataDir + config.get('dataFiles.newHerosOrigin')
 
 module.exports = {
@@ -31,8 +32,10 @@ module.exports = {
     filePathExists,
     pathExists,
     downloadPic,
+
     heroimg,
     faceimg,
     heroOrigin,
+    heroDetailOrigin,
     newHerosOrigin,
 }

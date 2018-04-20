@@ -18,14 +18,14 @@ const downloadHeroImg = data => {
             uri: img2,
             path: `${utils.faceimg}${name}.png`,
             name
-        }
-        )
+        })
     })
     utils.downloadPic(herolistImg)
 }
 
 fs.readFile(`${utils.heroOrigin}.json`, {encoding: 'UTF-8'}, (err, data) => {
     downloadHeroImg(JSON.parse(data))
+    // getHeroDatail(JSON.parse(data))
     let herolist = []
     JSON.parse(data).heroList.some(i => {
         let title = i.title.split('-')[2]
