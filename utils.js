@@ -27,11 +27,19 @@ const heroOrigin = config.dataDir + config.get('dataFiles.herosOrigin')
 const heroDetailOrigin = config.dataDir + config.get('dataFiles.herosDetailOrigin')
 const newHerosOrigin = config.dataDir + config.get('dataFiles.newHerosOrigin')
 
+
+const readOrigin = cb => fs.readFile(`${heroOrigin}.json`, {encoding: 'UTF-8'}, cb)
+
+
+const htmlDecode = str => str.replace(/&#(x)?(\w+);/g, ($, $1, $2) => String.fromCharCode(parseInt($2, $1 ? 16 : 10)))
+
 module.exports = {
     resolve,
     filePathExists,
     pathExists,
+    htmlDecode,
     downloadPic,
+    readOrigin,
 
     heroimg,
     faceimg,

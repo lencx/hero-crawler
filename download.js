@@ -8,8 +8,8 @@ const downloadHeroImg = data => {
         let img1 = i.heroimg
         let img2 = i.faceimg
         let name = i.pinyin
-        !/^http/.test(img1) ? img1 = `http:${img1}` : ''
-        !/^http/.test(img2) ? img2 = `http:${img2}` : ''
+        !/^http/.test(img1) ? img1 = `https:${img1}` : ''
+        !/^http/.test(img2) ? img2 = `https:${img2}` : ''
         herolistImg.push({
             uri: img1,
             path: `${utils.heroimg}${name}.png`,
@@ -23,7 +23,7 @@ const downloadHeroImg = data => {
     utils.downloadPic(herolistImg)
 }
 
-fs.readFile(`${utils.heroOrigin}.json`, {encoding: 'UTF-8'}, (err, data) => {
+utils.readOrigin((err, data) => {
     downloadHeroImg(JSON.parse(data))
     // getHeroDatail(JSON.parse(data))
     let herolist = []

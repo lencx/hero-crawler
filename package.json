@@ -7,7 +7,8 @@
   "author": "Len <cxin1314@gmail.com>",
   "scripts": {
     "dev": "nodemon",
-    "dl": "node ./download.js"
+    "dl:img": "node ./download.js",
+    "dl:info": "node ./detail.js"
   },
   "license": "MIT",
   "devDependencies": {
