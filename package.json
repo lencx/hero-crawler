@@ -1,14 +1,14 @@
 {
   "name": "hero-crawler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Node Crawler",
   "main": "index.js",
   "repository": "git@github.com:lencx/hero-crawler.git",
   "author": "Len <cxin1314@gmail.com>",
   "scripts": {
-    "dev": "nodemon",
-    "dl:img": "node ./download.js",
-    "dl:info": "node ./detail.js"
+    "dev": "nodemon ./src/heros.js",
+    "dl:img": "node ./src/hero-img.js",
+    "dl:info": "node ./src/hero-detail.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "config": "^1.30.0",
     "fs-extra": "^5.0.0",
     "iconv": "^2.3.0",
+    "js-yaml": "^3.12.0",
     "request-promise": "^4.2.2"
   }
 }

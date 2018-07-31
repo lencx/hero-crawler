@@ -10,6 +10,9 @@ yarn
 # waiting for changes before restart
 nodemon
 
+# download hero detail
+yarn dl:info
+
 # download hero pictures
-yarn dl
+yarn dl:img
 ```
